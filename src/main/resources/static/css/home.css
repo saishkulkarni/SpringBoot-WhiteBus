@@ -1,0 +1,11 @@
+@charset "ISO-8859-1";
+body{
+	background-image: url("/images/kgf.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+button {
+	background-color: black;
+	color: white;
+}
