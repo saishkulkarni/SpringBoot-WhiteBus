@@ -1,15 +1,18 @@
 package com.s13sh.white_bus.dto;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -17,10 +20,9 @@ import lombok.Data;
 @Data
 @Component
 @Entity
-public class Agency {
+public class Customer {
 	@Id
-	@GeneratedValue(generator = "a_id")
-	@SequenceGenerator(initialValue = 121001, allocationSize = 1, name = "a_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Size(min = 3, max = 30, message = "* Enter between 3 to 30 charecters")
 	private String name;
@@ -32,14 +34,13 @@ public class Agency {
 	@NotEmpty(message = "* this is Required field")
 	@Email(message = "* Enter Proper Email")
 	private String email;
-	private String gst_no;
 	@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "* Password should contain minimum 8 chareecter, inlcude one upper case, lowercase , number and special charecter")
 	private String password;
 	@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "* Password should contain minimum 8 chareecter, inlcude one upper case, lowercase , number and special charecter")
 	private String cpassword;
+	@Past(message = "* Enter proper Dob")
+	private LocalDate dob;
 	@NotEmpty(message = "* this is Required field")
-	private String reg_no;
-	@NotEmpty(message = "* this is Required field")
-	private String pan_no;
+	private String gender;
 
 }

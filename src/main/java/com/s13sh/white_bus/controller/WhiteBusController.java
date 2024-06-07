@@ -21,9 +21,9 @@ public class WhiteBusController {
 	@PostMapping("/signup")
 	public String signup(@RequestParam String role) {
 		if (role.equals("customer"))
-			return "customer-signup";
+			return "redirect:/customer/signup";
 		else
-			return "agency-signup";
+			return "redirect:/agency/signup";
 	}
 
 }

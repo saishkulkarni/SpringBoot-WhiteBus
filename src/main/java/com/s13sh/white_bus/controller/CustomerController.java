@@ -8,29 +8,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.s13sh.white_bus.dto.Agency;
-import com.s13sh.white_bus.service.AgencyService;
+import com.s13sh.white_bus.dto.Customer;
 
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/agency")
-public class AgencyController {
+@RequestMapping("/customer")
+public class CustomerController {
 
 	@Autowired
-	Agency agency;
-
-	@Autowired
-	AgencyService agencyService;
+	Customer customer;
 
 	@GetMapping("/signup")
 	public String loadSignup(ModelMap map) {
-		map.put("agency", agency);
-		return "agency-signup.html";
+		map.put("customer", customer);
+		return "customer-signup.html";
 	}
 
 	@PostMapping("/signup")
-	public String signup(@Valid Agency agency, BindingResult result) {
-		return agencyService.signup(agency, result);
+	public String signup(@Valid Customer customer, BindingResult result) {
+		if (result.hasErrors())
+			return "customer-signup.html";
+		else
+			return "home.html";
 	}
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="https://thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Agency Signup</title>
@@ -9,28 +9,22 @@
 		<h1>Agency Signup</h1>
 		<form action="/agency/signup" method="post" th:object="${agency}">
 			Name: <input type="text" name="name" th:field="*{name}"><span
-				th:errors="*{name}"></span><br>
-			Address:
+				th:errors="*{name}"></span><br> Address:
 			<textarea rows="5" cols="30" name="address" th:field="*{address}"></textarea>
-			<span th:errors="*{address}"></span><br> 
-			Mobile: <input
+			<span th:errors="*{address}"></span><br> Mobile: <input
 				type="number" name="mobile" th:field="*{mobile}"><span
-				th:errors="*{mobile}"></span><br> 
-			Email: <input type="text"
+				th:errors="*{mobile}"></span><br> Email: <input type="text"
 				name="email" th:field="*{email}"><span th:errors="*{email}"></span><br>
 			GST No: <input type="text" name="gst_no" th:field="*{gst_no}"><span
-				th:errors="*{gst_no}"></span><br> 
-			Password: <input
+				th:errors="*{gst_no}"></span><br> Password: <input
 				type="password" name="password" th:field="*{password}"><span
-				th:errors="*{password}"></span><br> 
-			Confirm Password: <input
+				th:errors="*{password}"></span><br> Confirm Password: <input
 				type="password" name="cpassword" th:field="*{cpassword}"><span
-				th:errors="*{cpassword}"></span><br> 
-			Registration Number: <input
+				th:errors="*{cpassword}"></span><br> Registration Number: <input
 				type="text" name="reg_no" th:field="*{reg_no}"><span
-				th:errors="*{reg_no}"></span><br> 
-			Pan Number: <input type="text"
-				name="pan_no" th:field="*{pan_no}"><span th:errors="*{pan_no}"></span><br>
+				th:errors="*{reg_no}"></span><br> Pan Number: <input
+				type="text" name="pan_no" th:field="*{pan_no}"><span
+				th:errors="*{pan_no}"></span><br>
 			<button>Signup</button>
 		</form>
 	</div>
