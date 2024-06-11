@@ -1,5 +1,7 @@
 package com.s13sh.white_bus.service;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -18,10 +20,10 @@ public class AgencyService {
 
 	@Autowired
 	AgencyDao agencyDao;
-	
+
 	@Autowired
 	MailSendingHelper mailSendingHelper;
-  
+
 	public String signup(Agency agency, BindingResult result) {
 		if (!agency.getPassword().equals(agency.getCpassword()))
 			result.rejectValue("cpassword", "error.cpassword", "* Password and Confirm Password Should be Matching");
@@ -34,10 +36,26 @@ public class AgencyService {
 			return "agency-signup.html";
 		else {
 			agency.setPassword(AES.encrypt(agency.getPassword(), "123"));
-			
-			mailSendingHelper.sendEmail(agency);
-			
-			return "home.html";
+			agency.setOtp(new Random().nextInt(100000, 1000000));
+			System.out.println("Otp - " + agency.getOtp());
+			if (mailSendingHelper.sendEmail(agency)) {
+				agencyDao.save(agency);
+				return "redirect:/agency/send-otp/"+agency.getId()+"";
+			} else {
+				return "redirect:/agency/signup";
+			}
+
+		}
+	}
+
+	public String verifyOtp(int id, int otp) {
+		Agency agency=agencyDao.findById(id);
+		if(agency.getOtp()==otp) {
+			agency.setStatus(true);
+			agencyDao.save(agency);
+			return "redirect:/agency/login";
+		}else {
+			return "redirect:/agency/send-otp/"+agency.getId()+"";
 		}
 	}
 

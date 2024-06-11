@@ -41,5 +41,7 @@ public class Agency {
 	private String reg_no;
 	@NotEmpty(message = "* this is Required field")
 	private String pan_no;
+	private int otp;
+	private boolean status;
 
 }

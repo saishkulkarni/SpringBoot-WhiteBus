@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Enter Otp</title>
+</head>
+<body>
+	<form action="/agency/verify-otp" method="post">
+		Enter Otp:<input type="number" name="otp"> <input
+			type="hidden" name="id" th:value="${id}">
+		<button>submit</button>
+	</form>
+</body>
+</html>
