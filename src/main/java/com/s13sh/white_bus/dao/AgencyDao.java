@@ -13,11 +13,11 @@ public class AgencyDao {
 	AgencyRepository agencyRepository;
 
 	public boolean checkEmail(String email) {
-		return agencyRepository.existsByEmail(email);
+		return agencyRepository.existsByEmailAndStatusTrue(email);
 	}
 
 	public boolean checkMobile(long mobile) {
-		return agencyRepository.existsByMobile(mobile);
+		return agencyRepository.existsByMobileAndStatusTrue(mobile);
 	}
 
 	public void save(Agency agency) {
@@ -26,5 +26,27 @@ public class AgencyDao {
 
 	public Agency findById(int id) {
 		return agencyRepository.findById(id).orElseThrow();
+	}
+
+	public Agency findByEmail(String email) {
+		return agencyRepository.findByEmail(email);
+	}
+
+	public Agency findByMobile(long mobile) {
+		return agencyRepository.findByMobile(mobile);
+	}
+
+	public void deleteIfExists(Agency agency) {
+		if (findByMobile(agency.getMobile()) != null) {
+			delete(findByMobile(agency.getMobile()));
+		}
+		if (findByEmail(agency.getEmail()) != null) {
+			delete(findByEmail(agency.getEmail()));
+		}
+
+	}
+
+	public void delete(Agency agency) {
+		agencyRepository.delete(agency);
 	}
 }

@@ -5,10 +5,14 @@
 <title>Enter Otp</title>
 </head>
 <body>
+<h3 th:text="${session.successMessage}"></h3>
+<h3 th:text="${session.failMessage}"></h3>
+<th:block th:text="${@sessionMessageRemover.removeSessionMessage()}"></th:block>
 	<form action="/agency/verify-otp" method="post">
 		Enter Otp:<input type="number" name="otp"> <input
 			type="hidden" name="id" th:value="${id}">
 		<button>submit</button>
 	</form>
+	<a th:href="'/agency/resend-otp/'+${id}">Resend Otp</a>
 </body>
 </html>

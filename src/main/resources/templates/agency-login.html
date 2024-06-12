@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Agency Login</title>
+</head>
+<body>
+<h3 th:text="${session.successMessage}"></h3>
+<h3 th:text="${session.failMessage}"></h3>
+<th:block th:text="${@sessionMessageRemover.removeSessionMessage()}"></th:block>
+	<h1>Agency Login</h1>
+</body>
+</html>

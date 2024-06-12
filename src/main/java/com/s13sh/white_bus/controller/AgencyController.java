@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.s13sh.white_bus.dto.Agency;
 import com.s13sh.white_bus.service.AgencyService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -32,18 +33,28 @@ public class AgencyController {
 	}
 
 	@PostMapping("/signup")
-	public String signup(@Valid Agency agency, BindingResult result) {
-		return agencyService.signup(agency, result);
+	public String signup(@Valid Agency agency, BindingResult result,HttpSession session) {
+		return agencyService.signup(agency, result,session);
 	}
 
 	@GetMapping("/send-otp/{id}")
 	public String loadOtpPage(@PathVariable int id, ModelMap map) {
 		map.put("id", id);
-		return "agency-otp";
+		return "agency-otp.html";
 	}
 
 	@PostMapping("/verify-otp")
-	public String verifyOtp(@RequestParam int id, @RequestParam int otp) {
-		return agencyService.verifyOtp(id, otp);
+	public String verifyOtp(@RequestParam int id, @RequestParam int otp,HttpSession session) {
+		return agencyService.verifyOtp(id, otp,session);
+	}
+
+	@GetMapping("/login")
+	public String login() {
+		return "agency-login.html";
+	}
+	
+	@GetMapping("/resend-otp/{id}")
+	public String resendOtp(@PathVariable int id,HttpSession session) {
+		return agencyService.resendOtp(id,session);
 	}
 }
