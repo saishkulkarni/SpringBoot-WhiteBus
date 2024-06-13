@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+</head>
+<body>
+	<h3 th:text="${session.successMessage}"></h3>
+	<h3 th:text="${session.failMessage}"></h3>
+	<th:block th:text="${@sessionMessageRemover.removeSessionMessage()}"></th:block>
+	<h1>Login</h1>
+	<form action="/login" method="post">
+		Email / Phone : <input type="text" name="email-phone"><br> Password:
+		<input type="password" name="password"><br>
+		<button>Login</button>
+	</form>
+</body>
+</html>

@@ -5,8 +5,27 @@
 <title>White-Bus Home</title>
 <link rel="stylesheet" href="/css/home.css">
 </head>
-<body>
+<body><h3 th:text="${session.successMessage}"></h3>
+	<h3 th:text="${session.failMessage}"></h3>
+	<th:block th:text="${@sessionMessageRemover.removeSessionMessage()}"></th:block>
+	
 	<a href="/signup"><button>Signup</button></a>
 	<a href="/login"><button>Login</button></a>
+	
+	<div th:if="${session.agency}">
+	<button>Add Bus</button>	<button>Add Route</button>
+	<button>manage Routes</button>
+	<button>View Customers</button>
+	</div>
+	
+	<div th:if="${session.customer}">
+	<button>View All available Route</button>
+	<button>View previous Bookings</button>
+	</div>
+	
+	<button>Logout</button>
+	
+	
+	
 </body>
 </html>

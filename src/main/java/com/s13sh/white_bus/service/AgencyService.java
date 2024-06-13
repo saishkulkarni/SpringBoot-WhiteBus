@@ -46,6 +46,7 @@ public class AgencyService {
 				session.setAttribute("successMessage", "Otp Sent Success");
 				return "redirect:/agency/send-otp/" + agency.getId() + "";
 			} else {
+				session.setAttribute("failMessage", "Sorry Not able to send OTP");
 				return "redirect:/agency/signup";
 			}
 
@@ -58,7 +59,7 @@ public class AgencyService {
 			agency.setStatus(true);
 			agencyDao.save(agency);
 			session.setAttribute("successMessage", "Otp Verified Success, You can Lgin Now");
-			return "redirect:/agency/login";
+			return "redirect:/login";
 		} else {
 			session.setAttribute("failMessage", "Invalid Otp, Try Again");
 			return "redirect:/agency/send-otp/" + agency.getId() + "";

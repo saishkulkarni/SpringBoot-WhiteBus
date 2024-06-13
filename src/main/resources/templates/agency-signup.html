@@ -4,7 +4,9 @@
 <meta charset="ISO-8859-1">
 <title>Agency Signup</title>
 </head>
-<body>
+<body><h3 th:text="${session.successMessage}"></h3>
+	<h3 th:text="${session.failMessage}"></h3>
+	<th:block th:text="${@sessionMessageRemover.removeSessionMessage()}"></th:block>
 	<div align="center">
 		<h1>Agency Signup</h1>
 		<form action="/agency/signup" method="post" th:object="${agency}">
