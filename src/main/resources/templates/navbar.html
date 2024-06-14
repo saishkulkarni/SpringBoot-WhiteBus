@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg navbar-dark">
+	<a class="navbar-brand" href="/">WhiteBus</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse"
+		data-target="#navbarSupportedContent"
+		aria-controls="navbarSupportedContent" aria-expanded="false"
+		aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+			<li class="nav-item"><a class="nav-link" href="/view-routes">View
+					Bus Routes</a></li>
+		</ul>
+		<ul class="navbar-nav ml-auto">
+
+			<th:block th:if="${session.customer==null && session.agency==null}">
+				<li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+				<li class="nav-item"><a class="nav-link" href="/signup">Sign
+						Up</a></li>
+			</th:block>
+
+			<th:block th:if="${session.customer}">
+				<li class="nav-item"><a class="nav-link" href="/logout">View
+						Previous Bookings</a></li>
+				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+			</th:block>
+
+			<th:block th:if="${session.agency}">
+				<li class="nav-item"><a class="nav-link" href="/add-bus">Add
+						Bus</a></li>
+				<li class="nav-item"><a class="nav-link" href="/add-route">Add
+						Route</a></li>
+				<li class="nav-item"><a class="nav-link" href="/manage-route">Manage
+						Routes</a></li>
+				<li class="nav-item"><a class="nav-link" href="/view-customers">View
+						Customers</a></li>
+				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+			</th:block>
+
+		</ul>
+	</div>
+</nav>

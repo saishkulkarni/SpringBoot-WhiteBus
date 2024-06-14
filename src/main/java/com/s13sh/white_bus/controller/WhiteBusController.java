@@ -41,4 +41,12 @@ public class WhiteBusController {
 		return commonService.login(emph, password, session);
 	}
 
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("agency");
+		session.removeAttribute("customer");
+		session.setAttribute("successMessage", "Logout Success");
+		return "redirect:/";
+	}
+
 }

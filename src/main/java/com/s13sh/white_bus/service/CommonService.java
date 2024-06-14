@@ -54,6 +54,7 @@ public class CommonService {
 				}
 			} else {
 				if (AES.decrypt(customer.getPassword(), "123").equals(password)) {
+					session.setAttribute("customer", customer);
 					session.setAttribute("successMessage", "Login Success");
 					return "redirect:/";
 				} else {

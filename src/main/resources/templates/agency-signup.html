@@ -1,34 +1,95 @@
 <!DOCTYPE html>
-<html xmlns:th="https://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Agency Signup</title>
+<th:block th:insert="~{header.html}"></th:block>
+<title>WhiteBus - Signup</title>
+<link rel="stylesheet" href="/css/login.css">
 </head>
-<body><h3 th:text="${session.successMessage}"></h3>
-	<h3 th:text="${session.failMessage}"></h3>
-	<th:block th:text="${@sessionMessageRemover.removeSessionMessage()}"></th:block>
-	<div align="center">
-		<h1>Agency Signup</h1>
+
+<body>
+	<th:block th:insert="~{navbar.html}"></th:block>
+	<th:block th:insert="~{message.html}"></th:block>
+	<div class="container">
+		<h2>Agency Signup</h2>
 		<form action="/agency/signup" method="post" th:object="${agency}">
-			Name: <input type="text" name="name" th:field="*{name}"><span
-				th:errors="*{name}"></span><br> Address:
-			<textarea rows="5" cols="30" name="address" th:field="*{address}"></textarea>
-			<span th:errors="*{address}"></span><br> Mobile: <input
-				type="number" name="mobile" th:field="*{mobile}"><span
-				th:errors="*{mobile}"></span><br> Email: <input type="text"
-				name="email" th:field="*{email}"><span th:errors="*{email}"></span><br>
-			GST No: <input type="text" name="gst_no" th:field="*{gst_no}"><span
-				th:errors="*{gst_no}"></span><br> Password: <input
-				type="password" name="password" th:field="*{password}"><span
-				th:errors="*{password}"></span><br> Confirm Password: <input
-				type="password" name="cpassword" th:field="*{cpassword}"><span
-				th:errors="*{cpassword}"></span><br> Registration Number: <input
-				type="text" name="reg_no" th:field="*{reg_no}"><span
-				th:errors="*{reg_no}"></span><br> Pan Number: <input
-				type="text" name="pan_no" th:field="*{pan_no}"><span
-				th:errors="*{pan_no}"></span><br>
-			<button>Signup</button>
+
+			<div class="form-group">
+				<label for="name">Name:</label> <input type="text"
+					class="form-control" id="name" th:field="*{name}" name="name"
+					placeholder="Enter your name"> <span class="error-message"
+					th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="mobile">Mobile:</label> <input type="tel"
+					class="form-control" id="mobile" th:field="*{mobile}" name="mobile"
+					placeholder="Enter your mobile number"> <span
+					class="error-message" th:if="${#fields.hasErrors('mobile')}"
+					th:errors="*{mobile}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="email">Email:</label> <input type="email"
+					class="form-control" id="email" th:field="*{email}" name="email"
+					placeholder="Enter your email"> <span class="error-message"
+					th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="password">Password:</label> <input type="password"
+					class="form-control" th:field="*{password}" id="password"
+					name="password" placeholder="Enter your password"> <span
+					class="error-message" th:if="${#fields.hasErrors('password')}"
+					th:errors="*{password}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="cpassword">Confirm Password:</label> <input
+					type="password" class="form-control" th:field="*{cpassword}"
+					id="cpassword" name="cpassword" placeholder="Enter Password Again">
+				<span class="error-message"
+					th:if="${#fields.hasErrors('cpassword')}" th:errors="*{cpassword}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="address">Address:</label>
+				<textarea class="form-control" rows="3" cols="20" name="address"
+					th:field="*{address}" placeholder="Enter your Address"></textarea>
+				<span class="error-message" th:if="${#fields.hasErrors('address')}"
+					th:errors="*{address}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="gst_no">GST No:</label> <input type="text"
+					class="form-control" placeholder="Enter your GST Number"
+					id="gst_no" th:field="*{gst_no}" name="gst_no"> <span
+					class="error-message" th:if="${#fields.hasErrors('gst_no')}"
+					th:errors="*{gst_no}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="reg_no">Registration Number:</label> <input type="text"
+					class="form-control" placeholder="Enter your Registration Number"
+					id="reg_no" th:field="*{reg_no}" name="reg_no"> <span
+					class="error-message" th:if="${#fields.hasErrors('reg_no')}"
+					th:errors="*{reg_no}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="pan_no">Pan Number:</label> <input type="text"
+					class="form-control" placeholder="Enter your Pan Number"
+					id="pan_no" th:field="*{pan_no}" name="pan_no"> <span
+					class="error-message" th:if="${#fields.hasErrors('pan_no')}"
+					th:errors="*{pan_no}"></span>
+			</div>
+
+			<div class="d-flex justify-content-between align-items-center">
+				<a href="/" class="btn btn-secondary">Back</a>
+				<button type="submit" class="btn btn-success">Sign Up</button>
+			</div>
+
 		</form>
 	</div>
-</body>
+	<th:block th:insert="~{footer.html}"></th:block>
+</body
 </html>

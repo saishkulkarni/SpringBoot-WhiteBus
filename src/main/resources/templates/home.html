@@ -1,31 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>White-Bus Home</title>
+<th:block th:insert="~{header.html}"></th:block>
+<title>WhiteBus - Home</title>
 <link rel="stylesheet" href="/css/home.css">
 </head>
-<body><h3 th:text="${session.successMessage}"></h3>
-	<h3 th:text="${session.failMessage}"></h3>
-	<th:block th:text="${@sessionMessageRemover.removeSessionMessage()}"></th:block>
-	
-	<a href="/signup"><button>Signup</button></a>
-	<a href="/login"><button>Login</button></a>
-	
-	<div th:if="${session.agency}">
-	<button>Add Bus</button>	<button>Add Route</button>
-	<button>manage Routes</button>
-	<button>View Customers</button>
+<body>
+	<th:block th:insert="~{navbar.html}"></th:block>
+	<th:block th:insert="~{message.html}"></th:block>
+
+	<div class="container mt-4">
+		<h2>Welcome to WhiteBus.com Bus Booking Site</h2>
 	</div>
-	
-	<div th:if="${session.customer}">
-	<button>View All available Route</button>
-	<button>View previous Bookings</button>
-	</div>
-	
-	<button>Logout</button>
-	
-	
-	
+
+	<th:block th:insert="~{footer.html}"></th:block>
 </body>
 </html>

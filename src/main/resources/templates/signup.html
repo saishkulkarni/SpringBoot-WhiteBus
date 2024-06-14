@@ -1,16 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Signup</title>
+<th:block th:insert="~{header.html}"></th:block>
+<title>WhiteBus - Signup</title>
+<link rel="stylesheet" href="/css/login.css">
 </head>
+
 <body>
-	<div align="center">
+	<th:block th:insert="~{navbar.html}"></th:block>
+	<th:block th:insert="~{message.html}"></th:block>
+	<div class="container">
 		<form action="/signup" method="post">
-			Select a Role : <input type="radio" name="role" value="customer">Customer
-			<input type="radio" name="role" value="agency">Agency<br>
-			<button>Done</button>
+			<div class="form-group">
+				<label for="name">Select a Role :</label> <input type="radio"
+				name="role" value="customer">Customer <input type="radio"
+					name="role" value="agency">Agency
+			</div>
+			<div class="d-flex justify-content-between align-items-center">
+				<a href="/" class="btn btn-secondary">Back</a>
+				<button type="submit" class="btn btn-success">Done</button>
+			</div>
 		</form>
 	</div>
+	<th:block th:insert="~{footer.html}"></th:block>
 </body>
+
 </html>

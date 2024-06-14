@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="https://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Customer Signup</title>
+<th:block th:insert="~{header.html}"></th:block>
+<title>WhiteBus - Signup</title>
+<link rel="stylesheet" href="/css/login.css">
 </head>
-<body><h3 th:text="${session.successMessage}"></h3>
-	<h3 th:text="${session.failMessage}"></h3>
-	<th:block th:text="${@sessionMessageRemover.removeSessionMessage()}"></th:block>
-	<div align="center">
+
+<body>
+	<th:block th:insert="~{navbar.html}"></th:block>
+	<th:block th:insert="~{message.html}"></th:block>
+	<div class="container">
 		<h1>Customer Signup</h1>
 		<form action="/customer/signup" method="post" th:object="${customer}">
 			Name: <input type="text" name="name" th:field="*{name}"><span
@@ -30,5 +32,7 @@
 			<button>Signup</button>
 		</form>
 	</div>
+	<th:block th:insert="~{footer.html}"></th:block>
 </body>
+
 </html>
