@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Add Bus</title>
+</head>
+<body>
+	<div>
+		<form action="/agency/add-bus" method="post"
+			enctype="multipart/form-data">
+			<label>Bus type</label>
+			<div class="form-addbus">
+				<input type="radio" name="ac" value="true" id="ac"><label
+					for="ac">AC</label> <input type="radio" name="ac" value="false"
+					id="nonac"><label for="nonac">NON-AC</label>
+			</div>
+			<div class="form-addbus">
+				<input type="radio" name="sleeper" value="true" id="acsleeper"><label
+					for="acsleeper">SLEEPER</label> <input type="radio" name="sleeper"
+					value="false" id="nonsleeper"><label for="nonsleeper">NON-SLEEPER</label>
+			</div>
+			<div class="form-addbus">
+				<label for="noseats">Enter Number of seats</label> <input
+					type="number" name="seat" placeholder="Enter number of seats"
+					id="noseats">
+			</div>
+			<div class="form-addbus">
+				<label for="regno">Registration number</label> <input type="text"
+					name="regno" placeholder="KA28AK4444">
+			</div>
+			<div class="form-addbus">
+				<label for="image">Image</label> <input type="file" name="image">
+			</div>
+			<a href="/"><button type="button">Back</button></a>
+			<button>ADD</button>
+		</form>
+	</div>
+</body>
+</html>

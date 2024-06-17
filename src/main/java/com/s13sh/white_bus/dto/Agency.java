@@ -1,10 +1,16 @@
 package com.s13sh.white_bus.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -44,5 +50,8 @@ public class Agency {
 	private String pan_no;
 	private int otp;
 	private boolean status;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	List<Bus> buses = new ArrayList<Bus>();
 
 }

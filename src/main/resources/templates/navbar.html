@@ -22,19 +22,19 @@
 			</th:block>
 
 			<th:block th:if="${session.customer}">
-				<li class="nav-item"><a class="nav-link" href="/logout">View
+				<li class="nav-item"><a class="nav-link" href="/customer/view-bookings">View
 						Previous Bookings</a></li>
 				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
 			</th:block>
 
 			<th:block th:if="${session.agency}">
-				<li class="nav-item"><a class="nav-link" href="/add-bus">Add
+				<li class="nav-item"><a class="nav-link" href="/agency/add-bus">Add
 						Bus</a></li>
-				<li class="nav-item"><a class="nav-link" href="/add-route">Add
+				<li class="nav-item"><a class="nav-link" href="/agency/add-route">Add
 						Route</a></li>
-				<li class="nav-item"><a class="nav-link" href="/manage-route">Manage
+				<li class="nav-item"><a class="nav-link" href="/agency/manage-route">Manage
 						Routes</a></li>
-				<li class="nav-item"><a class="nav-link" href="/view-customers">View
+				<li class="nav-item"><a class="nav-link" href="/agency/view-customers">View
 						Customers</a></li>
 				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
 			</th:block>

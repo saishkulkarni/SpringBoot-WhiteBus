@@ -1,14 +1,21 @@
 package com.s13sh.white_bus.service;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.s13sh.white_bus.dao.AgencyDao;
 import com.s13sh.white_bus.dao.CustomerDao;
 import com.s13sh.white_bus.dto.Agency;
+import com.s13sh.white_bus.dto.Bus;
 import com.s13sh.white_bus.helper.AES;
 import com.s13sh.white_bus.helper.MailSendingHelper;
 
@@ -38,6 +45,7 @@ public class AgencyService {
 			return "agency-signup.html";
 		else {
 			agencyDao.deleteIfExists(agency);
+			agency.setCpassword(AES.encrypt(agency.getCpassword(), "123"));
 			agency.setPassword(AES.encrypt(agency.getPassword(), "123"));
 			agency.setOtp(new Random().nextInt(100000, 1000000));
 			System.out.println("Otp - " + agency.getOtp());
@@ -78,6 +86,37 @@ public class AgencyService {
 			session.setAttribute("failMessage", "Failed to Send Otp");
 			return "redirect:/agency/send-otp/" + agency.getId() + "";
 		}
+	}
+
+	public String addBus(Bus bus, MultipartFile image, HttpSession session) {
+		Agency agency = (Agency) session.getAttribute("agency");
+		if (agency == null) {
+			session.setAttribute("failMessage", "Invalid Session");
+			return "redirect:/";
+		} else {
+			bus.setImageLink(addToCloudinary(image));
+			agency.getBuses().add(bus);
+			agencyDao.save(agency);
+			session.setAttribute("agency", agencyDao.findById(agency.getId()));
+			session.setAttribute("successMessage", "Bus Added Success");
+			return "redirect:/";
+
+		}
+	}
+
+	public String addToCloudinary(MultipartFile image) {
+		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap("cloud_name", "djkyoabl5", "api_key",
+				"297695696273364", "api_secret", "4bQWA8ZVWVftu83HUe57moGk5Q4", "secure", true));
+
+		Map resume = null;
+		try {
+			Map<String, Object> uploadOptions = new HashMap<String, Object>();
+			uploadOptions.put("folder", "Bus");
+			resume = cloudinary.uploader().upload(image.getBytes(), uploadOptions);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return (String) resume.get("url");
 	}
 
 }
