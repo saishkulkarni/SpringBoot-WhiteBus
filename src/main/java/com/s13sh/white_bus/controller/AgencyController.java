@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.s13sh.white_bus.dto.Agency;
 import com.s13sh.white_bus.dto.Bus;
+import com.s13sh.white_bus.dto.Route;
 import com.s13sh.white_bus.service.AgencyService;
 
 import jakarta.servlet.http.HttpSession;
@@ -64,9 +66,20 @@ public class AgencyController {
 	public String addBus() {
 		return "add-bus.html";
 	}
-	
+
 	@PostMapping("/add-bus")
-	public String addBus(Bus bus,@RequestParam MultipartFile image,HttpSession session) {
-		return agencyService.addBus(bus,image,session);		
+	public String addBus(Bus bus, @RequestParam MultipartFile image, HttpSession session) {
+		return agencyService.addBus(bus, image, session);
+	}
+
+	@GetMapping("/add-route")
+	public String addRoute(HttpSession session, ModelMap map) {
+		return agencyService.addRoute(session, map);
+	}
+
+	@PostMapping("/add-route")
+	@ResponseBody
+	public Route addRoute(Route route, HttpSession session) {
+		return route;
 	}
 }

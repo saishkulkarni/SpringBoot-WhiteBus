@@ -2,11 +2,13 @@ package com.s13sh.white_bus.service;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -117,6 +119,23 @@ public class AgencyService {
 			e.printStackTrace();
 		}
 		return (String) resume.get("url");
+	}
+
+	public String addRoute(HttpSession session, ModelMap map) {
+		Agency agency = (Agency) session.getAttribute("agency");
+		if (agency == null) {
+			session.setAttribute("failMessage", "Invalid Session");
+			return "redirect:/";
+		} else {
+			List<Bus> buses = agency.getBuses();
+			if (buses.isEmpty()) {
+				session.setAttribute("failMessage", "First Add a Bus");
+				return "redirect:/";
+			} else {
+				map.put("buses", buses);
+				return "add-route.html";
+			}
+		}
 	}
 
 }
