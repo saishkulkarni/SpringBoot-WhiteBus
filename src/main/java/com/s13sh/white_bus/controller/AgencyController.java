@@ -1,5 +1,7 @@
 package com.s13sh.white_bus.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -78,8 +80,12 @@ public class AgencyController {
 	}
 
 	@PostMapping("/add-route")
-	@ResponseBody
-	public Route addRoute(Route route, HttpSession session) {
-		return route;
+	public String addRoute(Route route, HttpSession session) {
+		return agencyService.addRoute(route, session);
+	}
+
+	@GetMapping("/manage-route")
+	public String manageRoute(HttpSession session,ModelMap map) {
+		return agencyService.fetchRoutes(session,map);
 	}
 }

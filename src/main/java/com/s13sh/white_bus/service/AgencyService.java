@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,11 @@ import com.s13sh.white_bus.dao.AgencyDao;
 import com.s13sh.white_bus.dao.CustomerDao;
 import com.s13sh.white_bus.dto.Agency;
 import com.s13sh.white_bus.dto.Bus;
+import com.s13sh.white_bus.dto.Route;
 import com.s13sh.white_bus.helper.AES;
 import com.s13sh.white_bus.helper.MailSendingHelper;
+import com.s13sh.white_bus.repository.BusRepository;
+import com.s13sh.white_bus.repository.RouteRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -31,6 +35,12 @@ public class AgencyService {
 
 	@Autowired
 	AgencyDao agencyDao;
+
+	@Autowired
+	BusRepository busRepository;
+
+	@Autowired
+	RouteRepository routeRepository;
 
 	@Autowired
 	MailSendingHelper mailSendingHelper;
@@ -138,4 +148,30 @@ public class AgencyService {
 		}
 	}
 
+	public String addRoute(Route route, HttpSession session) {
+		route.setBus(busRepository.findById(route.getBus().getId()).orElse(null));
+		routeRepository.save(route);
+		session.setAttribute("successMessage", "Route Added Success");
+		return "redirect:/";
+	}
+
+	public String fetchRoutes(HttpSession session, ModelMap map) {
+		Agency agency = (Agency) session.getAttribute("agency");
+		if (agency == null) {
+			session.setAttribute("failMessage", "Invalid Session");
+			return "redirect:/";
+		} else {
+			List<Bus> buses = agency.getBuses();
+			if (buses.isEmpty()) {
+				session.setAttribute("failMessage", "No Routes Added Yet");
+				return "redirect:/";
+			} else {
+				List<Integer> list = buses.stream().mapToInt(x -> x.getId()).boxed().collect(Collectors.toList());
+				List<Route> routes = routeRepository.findByBus_idIn(list);
+				map.put("routes", routes);
+				return "fetch-routes.html";
+			}
+		}
+
+	}
 }
