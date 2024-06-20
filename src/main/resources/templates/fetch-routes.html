@@ -5,6 +5,61 @@
 <title>Manage Routes</title>
 </head>
 <body>
+	<th:block th:insert="~{message.html}"></th:block>
 
+	<h1 align="center"
+		th:text="${session.agency.name+' Agency Route Details'}"></h1>
+	<div align="center">
+		<table border="1">
+			<tr>
+				<th>From</th>
+				<th>To</th>
+				<th>Mid Stations</th>
+				<th>Ticket Price</th>
+				<th>Bus</th>
+				<th>Available Days</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+
+			<tr th:each="route:${routes}">
+				<td><span th:text="${route.stations[0].name}"></span><br>
+					<span th:text="${route.stations[0].time}"></span></td>
+				<td><span th:text="${route.stations[1].name}"></span><br>
+					<span th:text="${route.stations[1].time}"></span></td>
+				<td><span th:if="${route.stations.size==2}">No Mid
+						Stations</span>
+					<div th:if="${route.stations.size>2}"
+						th:each="i:${#numbers.sequence( 2, route.stations.size-1, 1)}">
+
+						<span th:text="${route.stations[i].name}"></span><br> <span
+							th:text="${route.stations[i].time}"></span>
+
+					</div></td>
+				<td>
+					<div th:each="station:${route.stations}">
+						<span th:text="${station.name+' - '}"></span><span
+							th:text="${station.price}"></span>&#8377
+					</div>
+				</td>
+				<td><span th:text="${route.bus.name}"></span><br> <img
+					th:alt="${route.bus.name}" th:src="${route.bus.imageLink}"
+					height="100px" width="100px"></td>
+				<td><span th:if="${route.monday}">Monday </span> <span
+					th:if="${route.tuesday}">Tuesday </span> <span
+					th:if="${route.wednesday}">Wednesday </span> <span
+					th:if="${route.thursday}">Thursday </span> <span
+					th:if="${route.friday}">Friday </span> <span
+					th:if="${route.saturday}">Saturday </span> <span
+					th:if="${route.sunday}">Sunday</span></td>
+				<td><button>Edit</button></td>
+				<td><a th:href="'/agency/delete-route/'+${route.id}"><button>Delete</button></a></td>
+			</tr>
+
+		</table>
+		
+		<br><br>
+		<a href="/"><button>Back</button></a>
+	</div>
 </body>
 </html>

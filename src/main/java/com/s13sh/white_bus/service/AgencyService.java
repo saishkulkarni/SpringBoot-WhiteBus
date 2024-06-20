@@ -174,4 +174,16 @@ public class AgencyService {
 		}
 
 	}
+
+	public String deleteRoute(int id, HttpSession session) {
+		Agency agency = (Agency) session.getAttribute("agency");
+		if (agency == null) {
+			session.setAttribute("failMessage", "Invalid Session");
+			return "redirect:/";
+		} else {
+			routeRepository.deleteById(id);
+			session.setAttribute("successMessage", "Route Removed Success");
+			return "redirect:/agency/manage-route";
+		}
+	}
 }
