@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Add Route</title>
+</head>
+<body>
+	<div>
+		<form action="/agency/edit-route" method="post">
+			<div>
+				<label>Select Bus</label> <select name="bus.id" required="required">
+					<option selected="selected" disabled="disabled">Select One
+						Bus</option>
+					<option th:each="bus:${buses}" th:value="${bus.id}"
+						th:text="${bus.name}"></option>
+				</select>
+			</div>
+
+			<div id="stations">
+				<div>
+					<label>From:</label><br> <input type="text"
+						placeholder="Enter Source Station" name="stations[0].name">
+					<input type="time" name="stations[0].time">
+				</div>
+				<div>
+					<label>To:</label><br> <input type="text"
+						name="stations[1].name" placeholder="Enter Station"> <input
+						type="text" name="stations[1].price"
+						placeholder="Enter Ticket Price"> <input type="time"
+						name="stations[1].time">
+				</div>
+			</div>
+			<button type="button" onclick="addStation()">Add Station</button>
+
+			<div>
+				<label>Select Days : </label> <input type="checkbox" name="monday"
+					value="true">Monday <input type="checkbox" name="tuesday"
+					value="true">TuesDay <input type="checkbox"
+					name="wednesday" value="true">Wednesday <input
+					type="checkbox" name="thursday" value="true">Thursday <input
+					type="checkbox" name="friday" value="true">Friday <input
+					type="checkbox" name="saturday" value="true">Saturday <input
+					type="checkbox" name="sunday" value="true">Sunday
+			</div>
+
+			<button>Add Route</button><a href="/"><button type="button">Back</button></a>
+		</form>
+	</div>
+
+
+	<script type="text/javascript">
+		function addStation() {
+			var stations = document.getElementById('stations');
+
+			var stationCount = stations.children.length;
+
+			var newStationDiv = document.createElement('div');
+			newStationDiv.innerHTML = `
+	                <div>
+	                    <label>Mid Station:</label><br>
+	                    <input type="text" name="stations[${stationCount}].name" placeholder="Enter Mid Station" required>
+	                    <input type="text" name="stations[${stationCount}].price" placeholder="Enter Ticket Price" required>
+	                    <input type="time" name="stations[${stationCount}].time">
+	                    <button type="button" onclick="removeStation(this)">Remove Station</button>
+	                </div>
+	            `;
+
+			stations.appendChild(newStationDiv);
+		}
+
+		function removeStation(button) {
+			var stationDiv = button.parentNode;
+			stationDiv.parentNode.removeChild(stationDiv);
+		}
+	</script>	
+</body>
+</html>

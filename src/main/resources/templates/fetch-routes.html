@@ -52,7 +52,7 @@
 					th:if="${route.friday}">Friday </span> <span
 					th:if="${route.saturday}">Saturday </span> <span
 					th:if="${route.sunday}">Sunday</span></td>
-				<td><button>Edit</button></td>
+				<td><a th:href="'/agency/edit-route/'+${route.id}"><button>Edit</button></a></td>
 				<td><a th:href="'/agency/delete-route/'+${route.id}"><button>Delete</button></a></td>
 			</tr>
 

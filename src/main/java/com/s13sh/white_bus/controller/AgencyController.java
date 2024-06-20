@@ -90,4 +90,9 @@ public class AgencyController {
 	public String deleteRoute(@PathVariable int id, HttpSession session) {
 		return agencyService.deleteRoute(id, session);
 	}
+	
+	@GetMapping("/edit-route/{id}")
+	public String editRoute(@PathVariable int id, HttpSession session,ModelMap map) {
+		return agencyService.editRoute(id, session,map);
+	}
 }

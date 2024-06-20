@@ -20,6 +20,8 @@ public class Route {
 	private int id;
 	@ManyToOne
 	Bus bus;
+	@ManyToOne
+	Agency agency;
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	List<Station> stations;
 	private boolean monday;
