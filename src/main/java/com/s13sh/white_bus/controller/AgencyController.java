@@ -95,4 +95,16 @@ public class AgencyController {
 	public String editRoute(@PathVariable int id, HttpSession session,ModelMap map) {
 		return agencyService.editRoute(id, session,map);
 	}
+	
+	@GetMapping("/manage-bus")
+	public String manageBus(HttpSession session, ModelMap map) {
+		return agencyService.fetchBuses(session, map);
+	}
+	
+	@GetMapping("/delete-bus/{id}")
+	public String deleteBus(@PathVariable int id, HttpSession session) {
+		return agencyService.deleteBus(id, session);
+	}
+	
+	
 }

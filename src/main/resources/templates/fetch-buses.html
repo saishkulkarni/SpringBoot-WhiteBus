@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Manage Buses</title>
+</head>
+<body>
+	<th:block th:insert="~{message.html}"></th:block>
+
+	<h1 align="center"
+		th:text="${session.agency.name+' Agency Bus Details'}"></h1>
+	<div align="center">
+		<table border="1">
+			<tr>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Number of Seats</th>
+				<th>Registration Number</th>
+				<th>Bus Image</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+
+			<tr th:each="bus:${buses}">
+				<td th:text="${bus.name}"></td>
+				<td><span th:if="${bus.ac}">AC</span> <span th:if="${!bus.ac}">Non-AC</span>
+					<span th:if="${bus.sleeper}">Sleeper</span> <span
+					th:if="${!bus.sleeper}">Seater</span></td>
+				<td th:text="${bus.seat}"></td>
+				<td th:text="${bus.regno}">Registration Number</td>
+				<td><img th:alt="${bus.name}" th:src="${bus.imageLink}"
+					height="100px" width="100px"></td>
+				<td><a th:href="'/agency/edit-bus/'+${bus.id}"><button>Edit</button></a></td>
+				<td><a th:href="'/agency/delete-bus/'+${bus.id}"><button>Delete</button></a></td>
+			</tr>
+
+		</table>
+
+		<br>
+		<br> <a href="/"><button>Back</button></a>
+	</div>
+</body>
+</html>

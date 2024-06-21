@@ -196,7 +196,17 @@ public class AgencyService {
 			session.setAttribute("failMessage", "Invalid Session");
 			return "redirect:/";
 		} else {
-			routeRepository.deleteById(id);
+			Bus bus = routeRepository.findById(id).orElseThrow().getBus();
+			Route route = null;
+			for (Route route1 : bus.getRoutes()) {
+				if (route1.getId() == id) {
+					route = route1;
+					break;
+				}
+			}
+			bus.getRoutes().remove(route);
+			busRepository.save(bus);
+			routeRepository.delete(route);
 			session.setAttribute("successMessage", "Route Removed Success");
 			return "redirect:/agency/manage-route";
 		}
@@ -211,6 +221,45 @@ public class AgencyService {
 			Route route = routeRepository.findById(id).orElseThrow();
 			map.put("route", route);
 			return "edit-route.html";
+		}
+	}
+
+	public String fetchBuses(HttpSession session, ModelMap map) {
+		Agency agency = (Agency) session.getAttribute("agency");
+		if (agency == null) {
+			session.setAttribute("failMessage", "Invalid Session");
+			return "redirect:/";
+		} else {
+			List<Bus> buses = agency.getBuses();
+			if (buses.isEmpty()) {
+				session.setAttribute("failMessage", "No Buses Added Yet");
+				return "redirect:/";
+			} else {
+				map.put("buses", buses);
+				return "fetch-buses.html";
+			}
+		}
+
+	}
+
+	public String deleteBus(int id, HttpSession session) {
+		Agency agency = (Agency) session.getAttribute("agency");
+		if (agency == null) {
+			session.setAttribute("failMessage", "Invalid Session");
+			return "redirect:/";
+		} else {
+			Bus bus = null;
+			for (Bus bus1 : agency.getBuses()) {
+				if (bus1.getId() == id) {
+					bus = bus1;
+					break;
+				}
+			}
+			agency.getBuses().remove(bus);
+			agencyDao.save(agency);
+			busRepository.delete(bus);
+			session.setAttribute("successMessage", "Bus Removed Success");
+			return "redirect:/agency/manage-bus";
 		}
 	}
 }
