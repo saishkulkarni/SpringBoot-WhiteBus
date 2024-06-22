@@ -262,4 +262,39 @@ public class AgencyService {
 			return "redirect:/agency/manage-bus";
 		}
 	}
+
+	public String editBus(int id, HttpSession session, ModelMap map) {
+		Agency agency = (Agency) session.getAttribute("agency");
+		if (agency == null) {
+			session.setAttribute("failMessage", "Invalid Session");
+			return "redirect:/";
+		} else {
+			Bus bus = busRepository.findById(id).orElseThrow();
+			map.put("bus", bus);
+			return "edit-bus.html";
+		}
+	}
+
+	public String editBus(Bus bus, MultipartFile image, HttpSession session) {
+		Agency agency = (Agency) session.getAttribute("agency");
+		if (agency == null) {
+			session.setAttribute("failMessage", "Invalid Session");
+			return "redirect:/";
+		} else {
+			try {
+				if (image.getInputStream().available() != 0) {
+					bus.setImageLink(addToCloudinary(image));
+				} else {
+					bus.setImageLink(busRepository.findById(bus.getId()).orElseThrow().getImageLink());
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			busRepository.save(bus);
+			session.setAttribute("agency", agencyDao.findById(agency.getId()));
+			session.setAttribute("successMessage", "Bus Updated Success");
+			return "redirect:/agency/manage-bus";
+
+		}
+	}
 }

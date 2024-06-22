@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Edit Bus</title>
+</head>
+<body>
+	<div>
+		<form action="/agency/edit-bus" method="post"
+			enctype="multipart/form-data" th:object="${bus}">
+			<input type="hidden" name="id" th:field="*{id}">
+			<div class="form-editbus">
+				<label for="name">Bus Name</label> <input type="text" name="name" th:field="*{name}">
+			</div>
+			<label>Bus type</label>
+			<div class="form-editbus">
+				<input type="radio" name="ac" th:field="*{ac}" value="true" id="ac"><label
+					for="ac">AC</label> 
+				<input type="radio" name="ac" value="false"
+					id="nonac" th:field="*{ac}"><label for="nonac">NON-AC</label>
+			</div>
+			<div class="form-editbus">
+				<input type="radio" name="sleeper" value="true" id="acsleeper" th:field="*{sleeper}"><label
+					for="acsleeper">SLEEPER</label> <input type="radio" name="sleeper"
+					value="false" id="nonsleeper" th:field="*{sleeper}"><label for="nonsleeper">NON-SLEEPER</label>
+			</div>
+			<div class="form-editbus">
+				<label for="noseats">Enter Number of seats</label> <input
+					type="number" name="seat" th:field="*{seat}" placeholder="Enter number of seats"
+					id="noseats">
+			</div>
+			<div class="form-editbus">
+				<label for="regno">Registration number</label> <input type="text"
+					name="regno" th:field="*{regno}" placeholder="KA28AK4444">
+			</div>
+			<div class="form-editbus">
+				<label for="image">Image</label> <input type="file" name="image">
+				<img th:alt="${bus.name}" th:src="*{imageLink}"
+					height="100px" width="100px">
+			</div>
+			<a href="/agency/manage-bus"><button type="button">Back</button></a>
+			<button>Update</button>
+		</form>
+	</div>
+</body>
+</html>

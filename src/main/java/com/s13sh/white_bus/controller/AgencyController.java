@@ -106,5 +106,15 @@ public class AgencyController {
 		return agencyService.deleteBus(id, session);
 	}
 	
+	@GetMapping("/edit-bus/{id}")
+	public String editBus(@PathVariable int id, HttpSession session,ModelMap map) {
+		return agencyService.editBus(id, session,map);
+	}
+	
+	@PostMapping("/edit-bus")
+	public String editBus(Bus bus, @RequestParam MultipartFile image,HttpSession session) {
+		return agencyService.editBus(bus,image,session);
+	}
+	
 	
 }
