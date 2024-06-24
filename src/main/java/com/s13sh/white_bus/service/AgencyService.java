@@ -20,6 +20,7 @@ import com.s13sh.white_bus.dao.CustomerDao;
 import com.s13sh.white_bus.dto.Agency;
 import com.s13sh.white_bus.dto.Bus;
 import com.s13sh.white_bus.dto.Route;
+import com.s13sh.white_bus.dto.Station;
 import com.s13sh.white_bus.helper.AES;
 import com.s13sh.white_bus.helper.MailSendingHelper;
 import com.s13sh.white_bus.repository.BusRepository;
@@ -155,11 +156,15 @@ public class AgencyService {
 			return "redirect:/";
 		} else {
 			Bus bus = busRepository.findById(route.getBus().getId()).orElse(null);
+			for (Station station : route.getStations()) {
+				station.setRoute(route);
+			}
 			route.setBus(bus);
 			route.setAgency(agency);
 			routeRepository.save(route);
 			bus.getRoutes().add(route);
 			busRepository.save(bus);
+			session.setAttribute("agency", agencyDao.findById(agency.getId()));
 			session.setAttribute("successMessage", "Route Added Success");
 			return "redirect:/";
 		}
@@ -207,6 +212,7 @@ public class AgencyService {
 			bus.getRoutes().remove(route);
 			busRepository.save(bus);
 			routeRepository.delete(route);
+			session.setAttribute("agency", agencyDao.findById(agency.getId()));
 			session.setAttribute("successMessage", "Route Removed Success");
 			return "redirect:/agency/manage-route";
 		}
@@ -258,6 +264,7 @@ public class AgencyService {
 			agency.getBuses().remove(bus);
 			agencyDao.save(agency);
 			busRepository.delete(bus);
+			session.setAttribute("agency", agencyDao.findById(agency.getId()));
 			session.setAttribute("successMessage", "Bus Removed Success");
 			return "redirect:/agency/manage-bus";
 		}

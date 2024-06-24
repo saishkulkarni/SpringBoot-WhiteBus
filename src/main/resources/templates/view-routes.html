@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>View Routes</title>
+</head>
+<body>
+	<div th:each="route:${routes}">
+		<h1 th:text="${route.id}"></h1>
+	</div>
+</body>
+</html>

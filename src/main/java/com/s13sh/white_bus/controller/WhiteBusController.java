@@ -1,7 +1,10 @@
 package com.s13sh.white_bus.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,6 +50,17 @@ public class WhiteBusController {
 		session.removeAttribute("customer");
 		session.setAttribute("successMessage", "Logout Success");
 		return "redirect:/";
+	}
+
+	@GetMapping("/book-bus")
+	public String loadBookBus() {
+		return "book-bus.html";
+	}
+
+	@PostMapping("/book-bus")
+	public String showBuses(@RequestParam String from, @RequestParam String to, @RequestParam LocalDate date,
+			HttpSession session, ModelMap map) {
+		return commonService.searchBus(from, to, date, session, map);
 	}
 
 }
