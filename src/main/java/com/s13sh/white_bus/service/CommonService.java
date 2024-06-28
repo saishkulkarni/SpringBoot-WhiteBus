@@ -83,7 +83,7 @@ public class CommonService {
 
 	public String searchBus(String from, String to, LocalDate date, HttpSession session, ModelMap map) {
 		if (!from.equalsIgnoreCase(to)) {
-			if (date.isAfter(LocalDate.now())) {
+			if (date.isAfter(LocalDate.now()) || date.isEqual(LocalDate.now())) {
 				String day = date.getDayOfWeek().toString().toLowerCase();
 				List<Route> routes = new ArrayList<Route>();
 
@@ -149,12 +149,12 @@ public class CommonService {
 					return "view-routes.html";
 				}
 			} else {
-				session.setAttribute("failMessage", "Enter Properly");
+				session.setAttribute("failMessage", "Select Proper Date");
 				return "redirect:/book-bus";
 			}
 
 		} else {
-			session.setAttribute("failMessage", "Enter Properly");
+			session.setAttribute("failMessage", "Enter Proper Destination");
 			return "redirect:/book-bus";
 		}
 	}
