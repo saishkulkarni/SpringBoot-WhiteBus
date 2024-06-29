@@ -32,4 +32,9 @@ public class CustomerController {
 		else
 			return "home.html";
 	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "customer-login.html";
+	}
 }

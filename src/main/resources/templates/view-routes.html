@@ -64,6 +64,7 @@ input[type="submit"]:hover {
 	<th:block th:insert="~{message.html}"></th:block>
 	<div class="container">
 		<div class="card" th:each="route:${routes}">
+
 			<img th:alt="${route.bus.name}" th:src="${route.bus.imageLink}"
 				height="150px" width="150px">
 			<h3 th:text="${route.bus.name}"></h3>
@@ -78,8 +79,16 @@ input[type="submit"]:hover {
 					<h4 th:text="'Arrival Time: ' + ${station.time}"></h4>
 				</th:block>
 			</th:block>
-			<h5 th:text="'Ticket Price: '+${@priceCalculator.calculatePrice(from,to,route)}+'&#8377'"></h5>
-			<a><button>Book</button></a>
+			<h5
+				th:text="'Ticket Price: '+${@calculator.calculatePrice(from,to,route)}+'&#8377'"></h5>
+
+			<form action="/book-ticket" method="post">
+				<input type="hidden" name="from" th:value="${from}"> <input
+					type="hidden" name="to" th:value="${to}"> <input
+					type="hidden" name="routeId" th:value="${route.id}">
+				<button>Book</button>
+			</form>
+
 		</div>
 
 	</div>

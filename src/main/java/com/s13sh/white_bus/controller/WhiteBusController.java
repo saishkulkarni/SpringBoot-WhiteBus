@@ -63,4 +63,10 @@ public class WhiteBusController {
 		return commonService.searchBus(from, to, date, session, map);
 	}
 
+	@PostMapping("/book-ticket")
+	public String bookTicket(@RequestParam String from, @RequestParam String to, @RequestParam int routeId,
+			HttpSession session, ModelMap map) {
+		return commonService.bookTicket(from, to, routeId, session, map);
+	}
+
 }

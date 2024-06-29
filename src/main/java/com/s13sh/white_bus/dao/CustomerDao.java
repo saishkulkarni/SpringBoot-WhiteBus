@@ -28,4 +28,8 @@ public class CustomerDao {
 		return customerRepository.findByEmail(email);
 	}
 
+	public Customer save(Customer customer) {
+		return customerRepository.save(customer);
+	}
+
 }
