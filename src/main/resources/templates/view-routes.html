@@ -13,6 +13,8 @@
 	padding: 20px;
 	border-radius: 8px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	align-items: center;
 }
 
 .form-group {
@@ -68,40 +70,20 @@ input[type="submit"]:hover {
 			<h4 th:text="'From: '+${from}"></h4>
 			<h4 th:text="'To: '+${to}"></h4>
 
-			<th:block th:with="fromPrice=0, toPrice=0">
-				<th:block th:each="station : ${route.stations}">
-					<th:block th:if="${station.name == from}">
-						<h4 th:text="'Departure Time ' + ${station.time}"></h4>
-						<th:block th:with="fromPrice=${station.price}">
-							<h1 th:text="${'From: '+fromPrice}"></h1>
-						</th:block>
-					</th:block>
-
-
-
-					<th:block th:if="${station.name == to}">
-						<h4 th:text="'Arrival Time: ' + ${station.time}"></h4>
-						<th:block th:with="toPrice=${station.price}">
-							<h1 th:text="'to: '+${toPrice}"></h1>
-						</th:block>
-					</th:block>
-
+			<th:block th:each="station : ${route.stations}">
+				<th:block th:if="${station.name == from}">
+					<h4 th:text="'Departure Time ' + ${station.time}"></h4>
 				</th:block>
-			
-							<h1 th:text="${'From: '+fromPrice}"></h1>
-							
-							<h1 th:text="'to: '+${toPrice}"></h1>
-				<h5
-					th:text="'Ticket Price: ' + (${toPrice - fromPrice}) + ' &#8377;'"></h5>
+				<th:block th:if="${station.name == to}">
+					<h4 th:text="'Arrival Time: ' + ${station.time}"></h4>
+				</th:block>
 			</th:block>
-
-
-
+			<h5 th:text="'Ticket Price: '+${@priceCalculator.calculatePrice(from,to,route)}+'&#8377'"></h5>
 			<a><button>Book</button></a>
 		</div>
-		<a href="/book-bus"><button>Back</button></a>
-	</div>
 
+	</div>
+	<a href="/book-bus"><button>Back</button></a>
 	<th:block th:insert="~{footer.html}"></th:block>
 </body>
 </html>
