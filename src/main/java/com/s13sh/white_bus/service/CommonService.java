@@ -23,6 +23,7 @@ import com.s13sh.white_bus.dto.TripOrder;
 import com.s13sh.white_bus.helper.AES;
 import com.s13sh.white_bus.helper.Calculator;
 import com.s13sh.white_bus.repository.BusRepository;
+import com.s13sh.white_bus.repository.CustomerRepository;
 import com.s13sh.white_bus.repository.RouteRepository;
 import com.s13sh.white_bus.repository.StationRepository;
 import com.s13sh.white_bus.repository.TripOrderRepository;
@@ -52,6 +53,9 @@ public class CommonService {
 
 	@Autowired
 	RouteRepository routeRepository;
+	
+	@Autowired
+	CustomerRepository customerRepository;
 
 	public String signup(String role) {
 		if (role.equals("customer"))
@@ -214,6 +218,8 @@ public class CommonService {
 					map.put("tripOrder", tripOrder);
 					map.put("key", "rzp_test_f4vcAPoh0RDZfi");
 					map.put("customer", customer);
+					
+					session.setAttribute("customer", customerRepository.findById(customer.getId()).orElseThrow());
 					session.setAttribute("successMessage", "Check Details and Do Payment");
 					return "razor-pay.html";
 
