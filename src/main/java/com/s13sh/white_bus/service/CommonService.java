@@ -15,14 +15,17 @@ import com.razorpay.RazorpayException;
 import com.s13sh.white_bus.dao.AgencyDao;
 import com.s13sh.white_bus.dao.CustomerDao;
 import com.s13sh.white_bus.dto.Agency;
+import com.s13sh.white_bus.dto.Bus;
 import com.s13sh.white_bus.dto.Customer;
 import com.s13sh.white_bus.dto.Route;
 import com.s13sh.white_bus.dto.Station;
 import com.s13sh.white_bus.dto.TripOrder;
 import com.s13sh.white_bus.helper.AES;
 import com.s13sh.white_bus.helper.Calculator;
+import com.s13sh.white_bus.repository.BusRepository;
 import com.s13sh.white_bus.repository.RouteRepository;
 import com.s13sh.white_bus.repository.StationRepository;
+import com.s13sh.white_bus.repository.TripOrderRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -37,6 +40,12 @@ public class CommonService {
 
 	@Autowired
 	Calculator calculator;
+
+	@Autowired
+	BusRepository busRepository;
+
+	@Autowired
+	TripOrderRepository orderRepository;
 
 	@Autowired
 	StationRepository stationRepository;
@@ -168,46 +177,76 @@ public class CommonService {
 		}
 	}
 
-	public String bookTicket(String from, String to, int routeId, HttpSession session, ModelMap map) {
+	public String bookTicket(String from, String to, int routeId, HttpSession session, ModelMap map, int seat) {
 		Customer customer = (Customer) session.getAttribute("customer");
 		if (customer == null) {
 			session.setAttribute("failMessage", "First Login to Book");
-			return "redirect:/customer/login";
+			return "redirect:/login";
 		} else {
 			Route route = routeRepository.findById(routeId).orElseThrow();
-			double price = calculator.calculatePrice(from, to, route);
-			RazorpayClient razorpay = null;
-			try {
-				razorpay = new RazorpayClient("rzp_test_f4vcAPoh0RDZf", "jjblWSJ6F7NJuPUOtNmDjg4i");
-				JSONObject orderRequest = new JSONObject();
-				orderRequest.put("amount", price * 100);
-				orderRequest.put("currency", "INR");
+			Bus bus = route.getBus();
+			if (bus.getSeat() >= seat) {
+				double price = calculator.calculatePrice(from, to, route) * seat;
+				RazorpayClient razorpay = null;
+				try {
+					razorpay = new RazorpayClient("rzp_test_f4vcAPoh0RDZfi", "jjblWSJ6F7NJuPUOtNmDjg4i");
+					JSONObject orderRequest = new JSONObject();
+					orderRequest.put("amount", price * 100);
+					orderRequest.put("currency", "INR");
 
-				Order order = razorpay.orders.create(orderRequest);
+					Order order = razorpay.orders.create(orderRequest);
 
-				TripOrder tripOrder = new TripOrder();
-				tripOrder.setFrom(from);
-				tripOrder.setTo(to);
-				tripOrder.setAmount(price);
-				tripOrder.setBookingDate(LocalDate.now());
-				tripOrder.setArrivalTime(calculator.timeCalculator(to, route));
-				tripOrder.setDepartureTime(calculator.timeCalculator(from, route));
-				tripOrder.setOrderId(order.get("id"));
+					TripOrder tripOrder = new TripOrder();
+					tripOrder.setFrom(from);
+					tripOrder.setTo(to);
+					tripOrder.setAmount(price);
+					tripOrder.setBookingDate(LocalDate.now());
+					tripOrder.setArrivalTime(calculator.timeCalculator(to, route));
+					tripOrder.setDepartureTime(calculator.timeCalculator(from, route));
+					tripOrder.setOrderId(order.get("id"));
+					tripOrder.setSeat(seat);
+					tripOrder.setBusId(bus.getId());
 
-				customer.getTripOrders().add(tripOrder);
-				customerDao.save(customer);
+					orderRepository.save(tripOrder);
 
-				map.put("tripOrder", tripOrder);
-				map.put("key", "rzp_test_f4vcAPoh0RDZf");
-				map.put("customer", customer);
-				session.setAttribute("successMessage", "Check Details and Do Payment");
-				return "razor-pay.html";
+					customer.getTripOrders().add(tripOrder);
+					customerDao.save(customer);
+					map.put("tripOrder", tripOrder);
+					map.put("key", "rzp_test_f4vcAPoh0RDZfi");
+					map.put("customer", customer);
+					session.setAttribute("successMessage", "Check Details and Do Payment");
+					return "razor-pay.html";
 
-			} catch (RazorpayException e) {
-				session.setAttribute("failMessage", "Payment Failed");
+				} catch (RazorpayException e) {
+					e.printStackTrace();
+					session.setAttribute("failMessage", "Payment Failed");
+					return "redirect:/";
+				}
+			} else {
+				session.setAttribute("failMessage", "Sorry! Tickets are Not Available");
 				return "redirect:/";
 			}
 
+		}
+	}
+
+	public String confirmOrder(int id, String razorpay_payment_id, HttpSession session) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer == null) {
+			session.setAttribute("failMessage", "First Login to Book");
+			return "redirect:/login";
+		} else {
+			TripOrder order = orderRepository.findById(id).orElseThrow();
+			order.setPaymentId(razorpay_payment_id);
+			orderRepository.save(order);
+
+			Bus bus = busRepository.findById(order.getBusId()).orElseThrow();
+			bus.setSeat(bus.getSeat() - order.getSeat());
+
+			busRepository.save(bus);
+
+			session.setAttribute("successMessage", "Ticket booked Successfully");
+			return "redirect:/";
 		}
 	}
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -65,8 +66,13 @@ public class WhiteBusController {
 
 	@PostMapping("/book-ticket")
 	public String bookTicket(@RequestParam String from, @RequestParam String to, @RequestParam int routeId,
-			HttpSession session, ModelMap map) {
-		return commonService.bookTicket(from, to, routeId, session, map);
+			HttpSession session, ModelMap map,@RequestParam int seat) {
+		return commonService.bookTicket(from, to, routeId, session, map,seat);
+	}
+	
+	@PostMapping("/confirm-order/{id}")
+	public String confirmOrder(@PathVariable int id,@RequestParam String razorpay_payment_id,HttpSession session) {
+		return commonService.confirmOrder(id,razorpay_payment_id,session);
 	}
 
 }

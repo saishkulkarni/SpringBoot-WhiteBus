@@ -32,4 +32,21 @@ public class CustomerDao {
 		return customerRepository.save(customer);
 	}
 
+	public void deleteIfExists(Customer customer) {
+		if (findByMobile(customer.getMobile()) != null) {
+			delete(findByMobile(customer.getMobile()));
+		}
+		if (findByEmail(customer.getEmail()) != null) {
+			delete(findByEmail(customer.getEmail()));
+		}
+
+	}
+
+	public void delete(Customer customer) {
+		customerRepository.delete(customer);
+	}
+
+	public Customer findById(int id) {
+		return customerRepository.findById(id).orElseThrow();
+	}
 }

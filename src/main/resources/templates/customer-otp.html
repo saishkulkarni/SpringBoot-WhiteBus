@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Enter Otp</title>
+</head>
+<body>
+
+	<th:block th:insert="~{message.html}"></th:block>
+
+	<form action="/customer/verify-otp" method="post">
+		Enter Otp:<input type="number" name="otp"> <input
+			type="hidden" name="id" th:value="${id}">
+		<button>submit</button>
+	</form>
+	<a th:href="'/customer/resend-otp/'+${id}">Resend Otp</a>
+</body>
+</html>

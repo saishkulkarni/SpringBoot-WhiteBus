@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <th:block th:insert="~{header.html}"></th:block>
-<title>View Available Buses</title>
+<title>View Past Bookings</title>
 <style>
 .container {
 	max-width: 600px;
@@ -63,34 +63,14 @@ input[type="submit"]:hover {
 	<th:block th:insert="~{navbar.html}"></th:block>
 	<th:block th:insert="~{message.html}"></th:block>
 	<div class="container">
-		<div class="card" th:each="route:${routes}">
+		<div class="card" th:each="order:${orders}">
 
-			<img th:alt="${route.bus.name}" th:src="${route.bus.imageLink}"
-				height="150px" width="150px">
-			<h3 th:text="${route.bus.name}"></h3>
-			<h3 th:text="'Available Seats: '+${route.bus.seat}"></h3>
-			<h4 th:text="'From: '+${from}"></h4>
-			<h4 th:text="'To: '+${to}"></h4>
-
-			<th:block th:each="station : ${route.stations}">
-				<th:block th:if="${station.name == from}">
-					<h4 th:text="'Departure Time ' + ${station.time}"></h4>
-				</th:block>
-				<th:block th:if="${station.name == to}">
-					<h4 th:text="'Arrival Time: ' + ${station.time}"></h4>
-				</th:block> 	
-			</th:block>
-			<h5
-				th:text="'Ticket Price: '+${@calculator.calculatePrice(from,to,route)}+'&#8377'"></h5>
-
-			<form action="/book-ticket" method="post">
-			<input type="number" name="seat" value="1">
-				<input type="hidden" name="from" th:value="${from}"> <input
-					type="hidden" name="to" th:value="${to}"> <input
-					type="hidden" name="routeId" th:value="${route.id}">
-				<button>Book</button>
-			</form>
-
+			<h3
+				th:text="${order.from}+' '+${order.departureTime}+' To '+${order.to}+' '+${order.arrivalTime}"></h3>
+			<h3 th:text="${order.amount}+'&#8377'"></h3>
+			<h3 th:text="${order.seat}"></h3>
+			<h3 th:text="${order.orderId}"></h3>
+			<h3 th:text="${order.paymentId}"></h3>
 		</div>
 
 	</div>

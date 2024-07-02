@@ -6,30 +6,76 @@
 <link rel="stylesheet" href="/css/login.css">
 </head>
 
+
 <body>
 	<th:block th:insert="~{navbar.html}"></th:block>
 	<th:block th:insert="~{message.html}"></th:block>
 	<div class="container">
 		<h1>Customer Signup</h1>
 		<form action="/customer/signup" method="post" th:object="${customer}">
-			Name: <input type="text" name="name" th:field="*{name}"><span
-				th:errors="*{name}"></span><br> Address:
-			<textarea rows="5" cols="30" name="address" th:field="*{address}"></textarea>
-			<span th:errors="*{address}"></span><br> Mobile: <input
-				type="number" name="mobile" th:field="*{mobile}"><span
-				th:errors="*{mobile}"></span><br> Email: <input type="text"
-				name="email" th:field="*{email}"><span th:errors="*{email}"></span><br>
-			Password: <input type="password" name="password"
-				th:field="*{password}"><span th:errors="*{password}"></span><br>
-			Confirm Password: <input type="password" name="cpassword"
-				th:field="*{cpassword}"><span th:errors="*{cpassword}"></span><br>
-			Date of Birth: <input type="date" name="dob" th:field="*{dob}"><span
-				th:errors="*{dob}"></span><br> Gender: <input type="radio"
-				name="gender" value="male" th:field="*{gender}">Male <input
-				type="radio" name="gender" value="female" th:field="*{gender}">Female
-			<span th:errors="*{gender}"></span><br>
 
-			<button>Signup</button>
+			<div class="form-group">
+				<label for="name">Name:</label> <input type="text"
+					class="form-control" id="name" th:field="*{name}" name="name"
+					placeholder="Enter your name"> <span class="error-message"
+					th:errors="*{name}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="mobile">Mobile:</label> <input type="tel"
+					class="form-control" id="mobile" th:field="*{mobile}" name="mobile"
+					placeholder="Enter your mobile number"> <span
+					class="error-message" th:errors="*{mobile}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="email">Email:</label> <input type="email"
+					class="form-control" id="email" th:field="*{email}" name="email"
+					placeholder="Enter your email"> <span class="error-message"
+					th:errors="*{email}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="password">Password:</label> <input type="password"
+					class="form-control" th:field="*{password}" id="password"
+					name="password" placeholder="Enter your password"> <span
+					class="error-message" th:errors="*{password}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="cpassword">Confirm Password:</label> <input
+					type="password" class="form-control" th:field="*{cpassword}"
+					id="cpassword" name="cpassword" placeholder="Enter Password Again">
+				<span class="error-message" th:errors="*{cpassword}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="address">Address:</label>
+				<textarea class="form-control" rows="3" cols="20" name="address"
+					th:field="*{address}" placeholder="Enter your Address"></textarea>
+				<span class="error-message" th:errors="*{address}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="dob">Date of Birth:</label> <input type="date"
+					class="form-control" name="dob" th:field="*{dob}"
+					placeholder="Enter Dob"> <span class="error-message"
+					th:errors="*{dob}"></span>
+			</div>
+
+			<div class="form-group">
+				<label for="gender">Gender:</label> <input type="radio"
+					class="form-control" name="gender" th:field="*{gender}"
+					value="male">Male <input type="radio" class="form-control"
+					name="gender" th:field="*{gender}" value="female">Female<br> <span
+					class="error-message" th:errors="*{gender}"></span>
+			</div>
+
+			<div class="d-flex justify-content-between align-items-center">
+				<a href="/" class="btn btn-secondary">Back</a>
+				<button type="submit" class="btn btn-success">Sign Up</button>
+			</div>
+
 		</form>
 	</div>
 	<th:block th:insert="~{footer.html}"></th:block>

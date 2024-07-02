@@ -17,6 +17,7 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -44,9 +45,12 @@ public class Customer {
 	@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "* Password should contain minimum 8 chareecter, inlcude one upper case, lowercase , number and special charecter")
 	private String cpassword;
 	@Past(message = "* Enter proper Dob")
+	@NotNull(message = "* this is Required field")
 	private LocalDate dob;
 	@NotEmpty(message = "* this is Required field")
 	private String gender;
+	private int otp;
+	boolean status;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	List<TripOrder> tripOrders = new ArrayList<TripOrder>();
